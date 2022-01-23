@@ -15,7 +15,7 @@ points:
         pinkie:
         ring:
           spread: cx
-          stagger: 20
+          stagger: 16
         middle:
           spread: cx
           stagger: 10
@@ -27,19 +27,19 @@ points:
           stagger: -2
     thumb:
       anchor:
-        ref: four_fingers_index_bottom
-        shift: [0, -cy]
+        ref: four_fingers_inner_bottom
+        shift: [-0.5 * cx, -cy - 2]
       rows:
         thumb:
       columns:
         left:
+          stagger: 0
+          rotate: 5
+        home:
+          spread: cx + 2.2
           stagger: -5
           rotate: -20
-        home:
-          spread: cx + 3
-          stagger: -3.5
-          rotate: -20
         right:
-          spread: cx + 3
-          stagger: -3.5
-          rotate: -20
+          spread: cx + 2.5
+          stagger: -6
+          rotate: -25
