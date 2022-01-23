@@ -1,45 +1,226 @@
 units:
   cx: 18  # Kailh Choc keycap width (17.5mm) + 0.5mm
   cy: 17  # Kailh Choc keycap height (16.5mm) + 0.5mm
+  px: 2
+  py: 2
 points:
   key:
-    # Vertical spacing between keys in a column.
-    padding: cy  # Choc keycap size plus 0.5mm.
+    padding: cy  # Vertical spacing between keys in a column.
+    footprints:
+      choc_hotswap:
+        type: choc
+        nets:
+          from: =column_net
+          to: GND
+        params:
+          keycaps: true
+          reverse: true
+          hotswap: true
+      # choc:
+      #   type: choc
+      #   anchor:
+      #     rotate: 180
+      #   nets:
+      #     from: =column_net
+      #     to: GND
+      #   params:
+      #     keycaps: true
+      #     reverse: true
   zones:
-    four_fingers:
-      rows:
-        bottom:
-        home:
-        top:
+    four_finger_matrix:
       columns:
         pinkie:
+          rows:
+            bottom:
+              column_net: P21
+            home:
+              column_net: P20
+            top:
+              column_net: P19
         ring:
           spread: cx
           stagger: 16
+          rows:
+            bottom:
+              column_net: P19
+            home:
+              column_net: P18
+            top:
+              column_net: P15
         middle:
           spread: cx
           stagger: 10
+          rows:
+            bottom:
+              column_net: P14
+            home:
+              column_net: P16
+            top:
+              column_net: P10
         index:
           spread: cx
           stagger: -8
+          rows:
+            bottom:
+              column_net: P9
+            home:
+              column_net: P8
+            top:
+              column_net: P7
         inner:
           spread: cx
           stagger: -2
-    thumb:
+          rows:
+            bottom:
+              column_net: P6
+            home:
+              column_net: P5
+            top:
+              column_net: P4
+    thumb_fan:
       anchor:
-        ref: four_fingers_inner_bottom
+        ref: four_finger_matrix_inner_bottom
         shift: [-0.5 * cx, -cy - 2]
-      rows:
-        thumb:
       columns:
         left:
           stagger: 0
           rotate: 5
+          rows:
+            thumb:
+              column_net: P3
         home:
           spread: cx + 2.2
           stagger: -5
           rotate: -20
+          rows:
+            thumb:
+              column_net: P2
         right:
           spread: cx + 2.5
           stagger: -6
           rotate: -25
+          rows:
+            thumb:
+              column_net: P0
+outlines:
+  exports:
+    raw:
+    - type: keys
+      side: left
+      size: [cx + px, cy + py]
+      corner: px
+    thumb_fan_glue:
+    - type: polygon
+      points:
+      - ref: four_finger_matrix_pinkie_bottom
+        shift: [(cx + px) / 2, 0]
+      - ref: thumb_fan_left_thumb
+        shift: [-(cx + px) / 2, 0]
+      - ref: thumb_fan_right_thumb
+        shift: [0, 0]
+      - ref: thumb_fan_right_thumb
+        shift: [0, (cy + py) / 2]
+      # - ref: four_finger_matrix_inner_top
+      #   shift: [35.875, (cy - py) / 2]
+      - ref: four_finger_matrix_inner_top
+        shift: [(cx + px) / 2, (cy - py) / 2]
+      - ref: four_finger_matrix_pinkie_bottom
+        shift: [0, 0]
+    controller_glue:
+    - type: rectangle
+      anchor:
+        ref: four_finger_matrix_inner_top
+        shift: [35.875, (cy - py) / 2]
+        rotate: 180
+      size: [30, 70]
+      corner: px
+    cutout:
+      main:
+        type: outline
+        name: raw
+      thumb_fan:
+        type: outline
+        name: thumb_fan_glue
+        operation: add
+      controller:
+        type: outline
+        name: controller_glue
+        operation: add
+      # fillet: 3
+    # keycap_outlines:
+    # - type: keys
+    #   side: left
+    #   size: [cx - 0.5, cy - 0.5]  # Choc keycaps are 17.5mm x 16.5mm.
+    #   bound: false
+pcbs:
+  main:
+    outlines:
+      main:
+        outline: cutout
+    footprints:
+      promicro:
+        type: promicro
+        anchor:
+          ref: four_finger_matrix_inner_home
+          shift: [25, 0]
+          rotate: -90
+        params:
+          orientation: down
+      # pcm12:
+      #   type: pcm12
+      #   anchor:
+      #     ref: board_far_home
+      #     shift: [-75, -22]
+      #     rotate: 0
+      #   nets:
+      #     from: pos
+      #     to: RAW
+      #   params:
+      #     reverse: true
+      # via3:
+      #   type: via
+      #   anchor:
+      #     ref: four_finger_matrix_pinkie_bottom
+      #     shift: [-2,-10]
+      #   nets:
+      #     net: RAW
+      # via4:
+      #   type: via
+      #   anchor:
+      #     ref: four_finger_matrix_pinkie_bottom
+      #     shift: [-4,-10]
+      #   nets:
+      #     net: pos
+      # via5:
+      #   type: via
+      #   anchor:
+      #     ref: four_finger_matrix_pinkie_bottom
+      #     shift: [8,-10]
+      #   nets:
+      #     net: GND
+      # via6:
+      #   type: via
+      #   anchor:
+      #     ref: four_finger_matrix_pinkie_bottom
+      #     shift: [6,-10]
+      #   nets:
+      #     net: RST
+      # b3u1000p:
+      #   type: b3u1000p
+      #   nets:
+      #     r1: RST
+      #     r2: GND
+      #   anchor:
+      #     ref: board_pinkie_bottom
+      #     shift: [7, -15]
+      #     rotate: 0
+      #   params:
+      #     reverse: true
+      # bat:
+      #   type: bat
+      #   nets:
+      #     neg: GND
+      #   anchor:
+      #     ref: board_far_bottom
+      #     shift: [-42 , -0]
+      #     rotate: 0
