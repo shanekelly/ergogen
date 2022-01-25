@@ -157,22 +157,22 @@ pcbs:
           shift: [6,-10]
         nets:
           net: RST
-      # b3u1000p:
-      #   type: b3u1000p
-      #   nets:
-      #     r1: RST
-      #     r2: GND
-      #   anchor:
-      #     ref: board_pinkie_bottom
-      #     shift: [7, -15]
-      #     rotate: 0
-      #   params:
-      #     reverse: true
-      # bat:
-      #   type: bat
-      #   nets:
-      #     neg: GND
-      #   anchor:
-      #     ref: board_far_bottom
-      #     shift: [-42 , -0]
-      #     rotate: 0
+      b3u1000p:
+        type: b3u1000p
+        nets:
+          r1: RST
+          r2: GND
+        anchor:
+          ref: board_pinkie_bottom
+          shift: [7, -15]
+          rotate: 0
+        params:
+          reverse: true
+      bat:
+        type: bat
+        nets:
+          neg: GND
+        anchor:
+          ref: board_far_bottom
+          shift: [-42 , -0]
+          rotate: 0
